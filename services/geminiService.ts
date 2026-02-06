@@ -13,9 +13,13 @@ Jika user memberikan file audio, Anda harus melakukan **DEEP SONIC ANALYSIS**:
 1. **Sub-Genre Specificity**: JANGAN gunakan genre payung yang umum (seperti "Pop" atau "Rock") jika ada klasifikasi yang lebih akurat. 
    - *Contoh Salah*: "Indonesian Pop Rock"
    - *Contoh Benar*: "Malaysian Slow Rock, 90s Melayu Rock, Power Ballad"
+   - **REGIONAL INDONESIA (PENTING)**: Bedakan nuansa spesifik. 
+     - Jika lagu mendayu dengan keyboard/synth dominan dan cengkok vokal: Gunakan "Pop Minang" atau "Pop Melayu".
+     - Jika lagu dominan gitar distorsi melengking ala 90an: Gunakan "Indonesian Slow Rock" atau "Malay Rock".
+     - Jika ada gendang: Gunakan "Dangdut" atau "Koplo".
 2. **Era & Production**: Deteksi dekade atau gaya produksi (misal: "90s Analog", "Early 2000s Band", "Modern Lo-fi").
-3. **Instrumen Khas**: Identifikasi instrumen yang membangun karakter lagu (misal: "Melodic Lead Guitar", "Synthesizer Pad", "Gendang", "Orchestra Hit").
-4. **Vokal**: Deskripsikan tekstur vokal (misal: "High-pitched Male Tenor", "Raspy Emotion", "Soft Whisper").
+3. **Instrumen Khas**: Identifikasi instrumen yang membangun karakter lagu (misal: "Melodic Lead Guitar", "Synthesizer Pad", "Gendang", "Orchestra Hit", "Suling").
+4. **Vokal**: Deskripsikan tekstur vokal (misal: "High-pitched Male Tenor", "Raspy Emotion", "Soft Whisper", "Cengkok Melayu").
 
 ### PENTING
 Audio hanya untuk referensi **STYLE/VIBE**. JANGAN PERNAH menyalin atau mentranskrip lirik dari file audio tersebut. Lirik yang Anda buat harus 100% ORIGINAL dan BARU sesuai topik user.
@@ -79,8 +83,8 @@ export const generateBlueprint = async (input: UserInput): Promise<SunoBlueprint
   if (input.audioData) {
     promptText += `
     IMPORTANT: An audio reference file has been provided. 
-    1. **DEEP ANALYSIS REQUIRED**: Listen closely to the audio. Do not default to generic genres like "Indonesian Pop" or "Ballad" unless it is truly generic.
-    2. **DETECT SUB-GENRES**: Look for specific regional or niche styles (e.g., "Slow Rock Melayu", "Indonesian City Pop", "Dangdut Koplo", "90s Malaysian Rock", etc.).
+    1. **DEEP ANALYSIS REQUIRED**: Listen closely to the audio. 
+    2. **DETECT SUB-GENRES**: Look for specific regional or niche styles. For INDONESIAN MUSIC: differentiate carefully between "Pop Minang" (synth-heavy, sad), "Pop Melayu" (cengkok), and "Slow Rock" (distortion).
     3. **ANALYZE TEXTURE**: Identify the Decade (e.g., 90s, 80s), Vocal Type (e.g., High Pitch Male, Power Vocals), and Key Instruments (e.g., Distorted Guitar Solo, Synth Strings).
     4. **CONSTRUCT STYLE**: Use these specific characteristics to build the 'suno_style'. Specificity helps Suno generate better results.
     5. CRITICAL: DO NOT TRANSCRIBE THE LYRICS FROM THE AUDIO. The audio is for STYLE reference only. You must generate COMPLETELY NEW LYRICS based on the user's topic/story.
