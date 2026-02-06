@@ -12,13 +12,16 @@ Anda dapat menerima input teks DAN/ATAU input audio (file mp3/wav).
 Jika user memberikan file audio, Anda harus melakukan **DEEP SONIC ANALYSIS**:
 
 1. **Sub-Genre Specificity (REGIONAL INDONESIA/MELAYU PRIORITY)**:
-   - **Pop Minang / Pop Melayu (Nuansa Arief, Thomas Arya, Ipank)**:
-     - *Ciri Audio*: Dominan melodi **Synthesizer/Keyboard**, Drum machine atau drum pop standar, Bass yang menonjol, Vokal dengan **Cengkok Melayu** kental, Mood sangat sedih/galau.
-     - **TAGS WAJIB**: \`Pop Minang\`, \`Pop Melayu\`, \`Sentimental\`, \`Slow Beat\`, \`Indonesian Pop\`, \`Melancholic\`.
-     - **LARANGAN**: JANGAN gunakan tag "Rock", "Slow Rock", "Power Ballad", atau "Distortion" jika lagu didominasi keyboard/synth, meskipun drumnya terdengar agak keras. Labeli sebagai Pop.
+   - **Pop Minang / Pop Melayu (Nuansa Arief, Thomas Arya, Ipank, Yolanda)**:
+     - *Karakter Utama*: **"Mendayu-dayu"** (Lilting/Sentimental/Swaying).
+     - *Instrumen*: Dominan **Synthesizer/Keyboard/Organ** (khas Pop Melayu), Drum machine atau drum pop standar (ketukan lambat), Bass yang menonjol.
+     - *Vokal*: Vokal tinggi dengan **Cengkok Melayu** yang kental dan penuh emosi (meratap/galau).
+     - **TAGS WAJIB**: \`Pop Minang\`, \`Pop Melayu\`, \`Mendayu\`, \`Sentimental\`, \`Slow Beat\`, \`Indonesian Pop\`, \`Melancholic\`, \`Synth Pad\`.
+     - **LARANGAN KERAS**: JANGAN gunakan tag "Rock", "Slow Rock", "Power Ballad", atau "Distortion" jika lagu didominasi keyboard/synth. Meskipun beat-nya lambat, jika suasananya "lembut/mendayu", itu adalah **POP**, bukan ROCK.
    
    - **Slow Rock 90s (Nuansa Search, Iklim, Inka Christie)**:
-     - *Ciri Audio*: Intro dan Melody didominasi **Gitar Listrik Distorsi (Overdrive)**, Power Chords, Drum Rock pukulan berat.
+     - *Karakter Utama*: Garang tapi Melankolis.
+     - *Instrumen*: Intro dan Melody didominasi **Gitar Listrik Distorsi (Overdrive)** yang melengking (Lead Guitar), Power Chords, Drum Rock pukulan berat.
      - **TAGS**: \`Malaysian Slow Rock\`, \`Indo Rock\`, \`Power Ballad\`, \`Distorted Guitar\`, \`90s Rock\`.
 
    - **Dangdut / Koplo**:
@@ -41,7 +44,7 @@ Audio hanya untuk referensi **STYLE/VIBE**. JANGAN PERNAH menyalin atau mentrans
 ## STYLE OPTIMIZATION RULES
 - **STRICT LIMIT**: The 'suno_style' must be under 120 characters.
 - **PRIORITIZE**: Genre Tag > Mood > Instruments > Vocals.
-- **FOR POP MELAYU**: Use tags like "Pop Minang, Pop Melayu, Sentimental, Slow Beat, Male Vocals". Avoid "Rock".
+- **FOR POP MELAYU**: Use tags like "Pop Minang, Pop Melayu, Mendayu, Sentimental, Slow Beat". Avoid "Rock".
 
 ## LYRICS STRUCTURE RULES
 - Follow the 'Structure Blueprint' provided by the user EXACTLY.
@@ -91,7 +94,9 @@ export const generateBlueprint = async (input: UserInput): Promise<SunoBlueprint
     IMPORTANT: An audio reference file has been provided. 
     1. **DEEP ANALYSIS REQUIRED**: Listen closely to the audio. 
     2. **CRITICAL GENRE DISTINCTION (INDONESIA/MELAYU)**:
-       - If the song sounds like **Arief**, **Thomas Arya**, or **Ipank** (Sad, Melodic, Synth-heavy, Cengkok Vocals): Classify as **"Pop Minang"** or **"Pop Melayu"**. **DO NOT** use "Rock" or "Power Ballad".
+       - **TARGET NUANCE**: "Mendayu-dayu" (Sentimental, Lilting, Sad).
+       - If the song sounds like **Arief**, **Thomas Arya**, or **Ipank** (Sad, Melodic, Synth-heavy, Cengkok Vocals): Classify as **"Pop Minang"** or **"Pop Melayu"**. 
+       - **STRICTLY AVOID "ROCK"**: Do not use "Rock" or "Power Ballad" for these sentimental synth-pop songs.
        - Only use "Slow Rock" if there is heavy, distorted electric guitar driving the song (Search, Iklim style).
     3. **ANALYZE TEXTURE**: Identify the Decade (e.g., 90s, 80s), Vocal Type (e.g., High Pitch Male, Power Vocals), and Key Instruments.
     4. **CONSTRUCT STYLE**: Use these specific characteristics to build the 'suno_style'. Specificity helps Suno generate better results.
