@@ -4,17 +4,19 @@ import BlueprintForm from './components/BlueprintForm';
 import ResultDisplay from './components/ResultDisplay';
 import { generateBlueprint } from './services/geminiService';
 import { UserInput, SunoBlueprintResponse, LoadingState } from './types';
-import { AlertCircle } from 'lucide-react';
+import { AlertCircle, RefreshCw } from 'lucide-react';
 
 const App: React.FC = () => {
   const [loadingState, setLoadingState] = useState<LoadingState>(LoadingState.IDLE);
   const [result, setResult] = useState<SunoBlueprintResponse | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [lastInput, setLastInput] = useState<UserInput | null>(null);
 
   const handleFormSubmit = async (input: UserInput) => {
     setLoadingState(LoadingState.LOADING);
     setError(null);
     setResult(null);
+    setLastInput(input); // Save input for retry capability
 
     try {
       const data = await generateBlueprint(input);
@@ -23,6 +25,12 @@ const App: React.FC = () => {
     } catch (err: any) {
       setError(err.message || "Something went wrong while generating the blueprint.");
       setLoadingState(LoadingState.ERROR);
+    }
+  };
+
+  const handleRetry = () => {
+    if (lastInput) {
+      handleFormSubmit(lastInput);
     }
   };
 
@@ -46,9 +54,20 @@ const App: React.FC = () => {
         </section>
 
         {loadingState === LoadingState.ERROR && (
-          <div className="max-w-2xl mx-auto bg-red-500/10 border border-red-500/50 text-red-200 px-6 py-4 rounded-xl flex items-center gap-3 animate-in fade-in slide-in-from-top-2">
-            <AlertCircle className="w-5 h-5 flex-shrink-0" />
-            <p>{error}</p>
+          <div className="max-w-2xl mx-auto bg-red-500/10 border border-red-500/50 text-red-200 p-4 rounded-xl flex flex-col md:flex-row items-center justify-between gap-4 animate-in fade-in slide-in-from-top-2 shadow-lg shadow-red-900/10">
+            <div className="flex items-center gap-3">
+              <AlertCircle className="w-5 h-5 flex-shrink-0 text-red-400" />
+              <p className="text-sm md:text-base font-medium">{error}</p>
+            </div>
+            {lastInput && (
+              <button 
+                onClick={handleRetry}
+                className="flex items-center gap-2 bg-red-500/20 hover:bg-red-500/30 text-red-100 px-4 py-2 rounded-lg text-sm font-semibold transition-colors whitespace-nowrap"
+              >
+                <RefreshCw className="w-4 h-4" />
+                Coba Lagi
+              </button>
+            )}
           </div>
         )}
 
