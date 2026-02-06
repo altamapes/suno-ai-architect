@@ -45,10 +45,10 @@ Audio hanya untuk referensi **STYLE/VIBE**. JANGAN PERNAH menyalin atau mentrans
 - **STRICT LIMIT**: The 'suno_style' must be under 120 characters.
 - **PRIORITIZE**: Genre Tag > Mood > Instruments > Vocals.
 - **FOR POP MELAYU**: Use tags like "Pop Minang, Pop Melayu, Mendayu, Sentimental, Slow Beat". Avoid "Rock".
+- **FOR DUETS**: You MUST include "Duet" and "Male and Female Vocals" in the Style Prompt.
 
 ## LYRICS STRUCTURE RULES
 - Follow the 'Structure Blueprint' provided by the user EXACTLY.
-- If 'Auto' is selected and Audio Reference is present: ANALYZE the song structure of the audio file (e.g., if the audio starts with a chorus, start the lyrics with a chorus). Mirror the audio's flow but NOT the words.
 - **CRITICAL: DO NOT COPY LYRICS FROM AUDIO REFERENCE. WRITE NEW LYRICS.**
 - [Intro]
 - [Verse 1]
@@ -56,6 +56,17 @@ Audio hanya untuk referensi **STYLE/VIBE**. JANGAN PERNAH menyalin atau mentrans
 - [Drop] (Jika EDM) or [Instrumental Interlude]
 - [Bridge]
 - [Outro]
+
+### DUET & VOCAL ARRANGEMENT PROTOCOLS
+If 'Vocals' input is "Duet" or implies multiple singers:
+1. **Explicit Tagging**: You MUST tag every section or line to indicate who is singing.
+   - Use: \`[Male Verse]\`, \`[Female Verse]\`, \`[Male Vocal]\`, \`[Female Vocal]\`.
+2. **Chorus Dynamics**:
+   - Use: \`[Duet Chorus]\` or \`[Harmony]\` or \`[Both]\`.
+3. **Interaction**: Create "Call and Response" patterns in the Bridge or Pre-Chorus.
+   - Example: 
+     \`(Male) Mengapa kau pergi?\`
+     \`(Female) Aku tak tahan lagi\`
 
 ## ADVANCED FEATURES (Handle Appropriately)
 - If EARWORM MODE is active: Create shorter, punchier lines. Make the Chorus simpler and extremely repetitive. Use rhymes that are easy to remember.
@@ -149,7 +160,7 @@ export const generateBlueprint = async (input: UserInput): Promise<SunoBlueprint
             },
             suno_lyrics: {
               type: Type.STRING,
-              description: "The complete lyrics with bracketed structural tags. IMPORTANT: Structure MUST follow the provided 'Structure Blueprint'. Include [breath] tags if Humanize is on. Lyrics must be ORIGINAL, do not copy from audio.",
+              description: "The complete lyrics with bracketed structural tags. IMPORTANT: Structure MUST follow the provided 'Structure Blueprint'. Include [breath] tags if Humanize is on. Lyrics must be ORIGINAL, do not copy from audio. If Duet, strictly follow Duet tagging rules.",
             },
             analysis: {
               type: Type.STRING,

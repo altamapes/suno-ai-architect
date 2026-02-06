@@ -7,7 +7,7 @@ const Header: React.FC = () => {
         SUNO AI <span className="font-light text-white/80">ARCHITECT</span>
       </h1>
       <p className="mt-2 text-white/40 text-sm md:text-base font-mono">
-        Blueprint & Lyrics Generator powered by Gemini 3
+        Blueprint & Lyrics Generator powered by Alta Belagia
       </p>
     </header>
   );
