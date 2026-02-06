@@ -55,7 +55,7 @@ You must return a JSON object.
 
 export const generateBlueprint = async (input: UserInput): Promise<SunoBlueprintResponse> => {
   if (!process.env.API_KEY) {
-    throw new Error("API Key is missing");
+    throw new Error("API Key is missing. Ensure process.env.API_KEY is configured.");
   }
 
   const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
@@ -148,8 +148,20 @@ export const generateBlueprint = async (input: UserInput): Promise<SunoBlueprint
       return JSON.parse(response.text) as SunoBlueprintResponse;
     }
     throw new Error("No response generated");
-  } catch (error) {
+  } catch (error: any) {
     console.error("Gemini API Error:", error);
-    throw error;
+    
+    // Robust Error Handling for High Traffic / Many Users
+    if (error.status === 429) {
+      throw new Error("⚠️ Traffic Tinggi: Server sedang sibuk (Quota Limit). Silakan tunggu 1 menit dan coba lagi.");
+    }
+    if (error.status === 503) {
+      throw new Error("⚠️ Server Overloaded: AI sedang memproses banyak permintaan. Coba lagi sebentar lagi.");
+    }
+    if (error.message && error.message.includes("SAFETY")) {
+      throw new Error("⚠️ Safety Filter: Permintaan ditolak karena konten dianggap tidak aman. Coba ubah deskripsi lagu.");
+    }
+
+    throw new Error("Gagal terhubung ke AI Architect. Coba lagi nanti.");
   }
 };
