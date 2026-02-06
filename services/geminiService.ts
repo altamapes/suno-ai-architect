@@ -72,6 +72,7 @@ If 'Vocals' input is "Duet" or implies multiple singers:
 - If EARWORM MODE is active: Create shorter, punchier lines. Make the Chorus simpler and extremely repetitive. Use rhymes that are easy to remember.
 - If HUMANIZE VOCALS is active: You MUST insert non-musical vocal tags inside the lyrics like [breath], [sigh], [chuckle], [clears throat], [whisper], or [shout]. Place them for dramatic effect.
 - If MELODY GUIDE is active: Include BRACKETED guidelines inside the lyrics line to describe how it should be sung. Examples: [upbeat], [slows down], [rising pitch], [spoken]. DO NOT use parentheses ().
+- If VOCAL HARMONY is active: Add instructions for vocal harmonies, backing vocals, or ad-libs using tags like [Harmony], [Backing Vocals], [Call & Response], or [Layered Vocals], especially in Choruses. Also add "Vocal Harmonies" or "Lush Harmonies" to the style prompt.
 
 ## FORMAT OUTPUT
 You must return a JSON object.
@@ -136,6 +137,7 @@ export const generateBlueprint = async (input: UserInput): Promise<SunoBlueprint
     - EARWORM MODE: ${input.isEarworm ? "ENABLED (Make it extremely catchy and repetitive)" : "Disabled"}
     - HUMANIZE VOCALS: ${input.isHumanize ? "ENABLED (Inject breaths, laughs, etc)" : "Disabled"}
     - MELODY GUIDE: ${input.isMelodyGuide ? "ENABLED (Add instructional tags using SQUARE BRACKETS [ ] ONLY, do not use parentheses)" : "Disabled"}
+    - VOCAL HARMONY: ${input.isHarmony ? "ENABLED (Include harmony tags like [Harmony] or [Backing Vocals] in lyrics and style)" : "Disabled"}
   `;
 
   contents.push({ text: promptText });

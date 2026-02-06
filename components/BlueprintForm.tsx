@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { UserInput, LoadingState, Preset } from '../types';
 import { VOCAL_TYPES, TEMPO_OPTIONS, GENRE_EXAMPLES, PRODUCTION_TEXTURES, STRUCTURE_OPTIONS } from '../constants';
-import { Sparkles, Loader2, UploadCloud, Music, X, Star, User, TrendingUp, AudioLines, Layers, Save, Bookmark, Trash2, Check, Guitar, History } from 'lucide-react';
+import { Sparkles, Loader2, UploadCloud, Music, X, Star, User, TrendingUp, AudioLines, Layers, Save, Bookmark, Trash2, Check, Guitar, History, Mic2 } from 'lucide-react';
 
 interface BlueprintFormProps {
   onSubmit: (data: UserInput) => void;
@@ -21,7 +21,8 @@ const BlueprintForm: React.FC<BlueprintFormProps> = ({ onSubmit, loadingState })
     structure: '', // Default to empty (Auto)
     isEarworm: false,
     isHumanize: true, 
-    isMelodyGuide: false
+    isMelodyGuide: false,
+    isHarmony: false
   });
   
   // Audio State
@@ -577,6 +578,28 @@ const BlueprintForm: React.FC<BlueprintFormProps> = ({ onSubmit, loadingState })
             </div>
             <div className={`w-11 h-6 flex items-center rounded-full p-1 duration-300 ease-in-out ${formData.isMelodyGuide ? 'bg-purple-500' : 'bg-gray-700'}`}>
               <div className={`bg-white w-4 h-4 rounded-full shadow-md transform duration-300 ease-in-out ${formData.isMelodyGuide ? 'translate-x-5' : ''}`}></div>
+            </div>
+          </div>
+
+          {/* Vocal Harmony */}
+          <div 
+            onClick={() => handleToggle('isHarmony')}
+            className={`
+              w-full p-4 rounded-xl border flex items-center justify-between cursor-pointer transition-all duration-300
+              ${formData.isHarmony 
+                ? 'bg-[#3A1024] border-pink-500/50' 
+                : 'bg-black/20 border-white/10 hover:border-white/20'}
+            `}
+          >
+            <div className="flex items-center gap-3">
+              <Mic2 className={`w-5 h-5 ${formData.isHarmony ? 'text-pink-400' : 'text-white/40'}`} />
+              <div>
+                <h3 className={`font-bold text-sm ${formData.isHarmony ? 'text-pink-100' : 'text-white'}`}>Vocal Harmony</h3>
+                <p className="text-xs text-white/50">Add backing vocals & layers</p>
+              </div>
+            </div>
+            <div className={`w-11 h-6 flex items-center rounded-full p-1 duration-300 ease-in-out ${formData.isHarmony ? 'bg-pink-500' : 'bg-gray-700'}`}>
+              <div className={`bg-white w-4 h-4 rounded-full shadow-md transform duration-300 ease-in-out ${formData.isHarmony ? 'translate-x-5' : ''}`}></div>
             </div>
           </div>
 

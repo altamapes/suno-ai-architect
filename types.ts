@@ -1,3 +1,4 @@
+
 export interface SunoBlueprintResponse {
   suno_title: string;
   suno_style: string;
@@ -21,6 +22,7 @@ export interface UserInput {
   isEarworm: boolean;
   isHumanize: boolean;
   isMelodyGuide: boolean;
+  isHarmony: boolean;
 }
 
 export interface Preset {
