@@ -38,7 +38,7 @@ Anda dapat menerima input teks DAN/ATAU input audio (file mp3/wav).
 ## ADVANCED FEATURES (Handle Appropriately)
 - If EARWORM MODE is active: Create shorter, punchier lines. Make the Chorus simpler and extremely repetitive. Use rhymes that are easy to remember.
 - If HUMANIZE VOCALS is active: You MUST insert non-musical vocal tags inside the lyrics like [breath], [sigh], [chuckle], [clears throat], [whisper], or [shout]. Place them for dramatic effect.
-- If MELODY GUIDE is active: Include parenthetical guidelines inside the lyrics line to describe how it should be sung. Examples: (upbeat), (slows down), (rising pitch), (spoken).
+- If MELODY GUIDE is active: Include BRACKETED guidelines inside the lyrics line to describe how it should be sung. Examples: [upbeat], [slows down], [rising pitch], [spoken]. DO NOT use parentheses ().
 
 ## FORMAT OUTPUT
 You must return a JSON object.
@@ -97,7 +97,7 @@ export const generateBlueprint = async (input: UserInput): Promise<SunoBlueprint
     ADVANCED SETTINGS:
     - EARWORM MODE: ${input.isEarworm ? "ENABLED (Make it extremely catchy and repetitive)" : "Disabled"}
     - HUMANIZE VOCALS: ${input.isHumanize ? "ENABLED (Inject breaths, laughs, etc)" : "Disabled"}
-    - MELODY GUIDE: ${input.isMelodyGuide ? "ENABLED (Add instructional tags)" : "Disabled"}
+    - MELODY GUIDE: ${input.isMelodyGuide ? "ENABLED (Add instructional tags using SQUARE BRACKETS [ ] ONLY, do not use parentheses)" : "Disabled"}
   `;
 
   contents.push({ text: promptText });
