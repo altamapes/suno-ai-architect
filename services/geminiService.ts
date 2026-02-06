@@ -10,13 +10,21 @@ Anda dapat menerima input teks DAN/ATAU input audio (file mp3/wav).
 
 ### AUDIO ANALYSIS PROTOCOL (CRITICAL)
 Jika user memberikan file audio, Anda harus melakukan **DEEP SONIC ANALYSIS**:
-1. **Sub-Genre Specificity**: JANGAN gunakan genre payung yang umum (seperti "Pop" atau "Rock") jika ada klasifikasi yang lebih akurat. 
-   - *Contoh Salah*: "Indonesian Pop Rock"
-   - *Contoh Benar*: "Malaysian Slow Rock, 90s Melayu Rock, Power Ballad"
-   - **REGIONAL INDONESIA (PENTING)**: Bedakan nuansa spesifik. 
-     - Jika lagu mendayu dengan keyboard/synth dominan dan cengkok vokal: Gunakan "Pop Minang" atau "Pop Melayu".
-     - Jika lagu dominan gitar distorsi melengking ala 90an: Gunakan "Indonesian Slow Rock" atau "Malay Rock".
-     - Jika ada gendang: Gunakan "Dangdut" atau "Koplo".
+
+1. **Sub-Genre Specificity (REGIONAL INDONESIA/MELAYU PRIORITY)**:
+   - **Pop Minang / Pop Melayu (Nuansa Arief, Thomas Arya, Ipank)**:
+     - *Ciri Audio*: Dominan melodi **Synthesizer/Keyboard**, Drum machine atau drum pop standar, Bass yang menonjol, Vokal dengan **Cengkok Melayu** kental, Mood sangat sedih/galau.
+     - **TAGS WAJIB**: \`Pop Minang\`, \`Pop Melayu\`, \`Sentimental\`, \`Slow Beat\`, \`Indonesian Pop\`, \`Melancholic\`.
+     - **LARANGAN**: JANGAN gunakan tag "Rock", "Slow Rock", "Power Ballad", atau "Distortion" jika lagu didominasi keyboard/synth, meskipun drumnya terdengar agak keras. Labeli sebagai Pop.
+   
+   - **Slow Rock 90s (Nuansa Search, Iklim, Inka Christie)**:
+     - *Ciri Audio*: Intro dan Melody didominasi **Gitar Listrik Distorsi (Overdrive)**, Power Chords, Drum Rock pukulan berat.
+     - **TAGS**: \`Malaysian Slow Rock\`, \`Indo Rock\`, \`Power Ballad\`, \`Distorted Guitar\`, \`90s Rock\`.
+
+   - **Dangdut / Koplo**:
+     - *Ciri Audio*: Suara Gendang/Ketipung (Tak-tung), Bass bergoyang.
+     - **TAGS**: \`Dangdut\`, \`Koplo\`, \`Dangdut Modern\`.
+
 2. **Era & Production**: Deteksi dekade atau gaya produksi (misal: "90s Analog", "Early 2000s Band", "Modern Lo-fi").
 3. **Instrumen Khas**: Identifikasi instrumen yang membangun karakter lagu (misal: "Melodic Lead Guitar", "Synthesizer Pad", "Gendang", "Orchestra Hit", "Suling").
 4. **Vokal**: Deskripsikan tekstur vokal (misal: "High-pitched Male Tenor", "Raspy Emotion", "Soft Whisper", "Cengkok Melayu").
@@ -31,11 +39,9 @@ Audio hanya untuk referensi **STYLE/VIBE**. JANGAN PERNAH menyalin atau mentrans
 4. Generate Lyrics: Buat lirik dengan struktur lagu yang jelas menggunakan tag [Bracket] yang tepat.
 
 ## STYLE OPTIMIZATION RULES
-- Gunakan deskripsi tekstur suara (misal: "Warm Analog", "Crispy Highs").
-- Gunakan instrumen spesifik (misal: "Suling Javanese flute", "Heavy Reverb Synth").
-- Hindari kata-kata deskriptif yang tidak berguna (misal: "Amazing", "Best").
-- Pastikan Bahasa yang dipilih tercermin dalam diksi lirik.
-- STRICT LIMIT: The 'suno_style' must be under 120 characters.
+- **STRICT LIMIT**: The 'suno_style' must be under 120 characters.
+- **PRIORITIZE**: Genre Tag > Mood > Instruments > Vocals.
+- **FOR POP MELAYU**: Use tags like "Pop Minang, Pop Melayu, Sentimental, Slow Beat, Male Vocals". Avoid "Rock".
 
 ## LYRICS STRUCTURE RULES
 - Follow the 'Structure Blueprint' provided by the user EXACTLY.
@@ -84,8 +90,10 @@ export const generateBlueprint = async (input: UserInput): Promise<SunoBlueprint
     promptText += `
     IMPORTANT: An audio reference file has been provided. 
     1. **DEEP ANALYSIS REQUIRED**: Listen closely to the audio. 
-    2. **DETECT SUB-GENRES**: Look for specific regional or niche styles. For INDONESIAN MUSIC: differentiate carefully between "Pop Minang" (synth-heavy, sad), "Pop Melayu" (cengkok), and "Slow Rock" (distortion).
-    3. **ANALYZE TEXTURE**: Identify the Decade (e.g., 90s, 80s), Vocal Type (e.g., High Pitch Male, Power Vocals), and Key Instruments (e.g., Distorted Guitar Solo, Synth Strings).
+    2. **CRITICAL GENRE DISTINCTION (INDONESIA/MELAYU)**:
+       - If the song sounds like **Arief**, **Thomas Arya**, or **Ipank** (Sad, Melodic, Synth-heavy, Cengkok Vocals): Classify as **"Pop Minang"** or **"Pop Melayu"**. **DO NOT** use "Rock" or "Power Ballad".
+       - Only use "Slow Rock" if there is heavy, distorted electric guitar driving the song (Search, Iklim style).
+    3. **ANALYZE TEXTURE**: Identify the Decade (e.g., 90s, 80s), Vocal Type (e.g., High Pitch Male, Power Vocals), and Key Instruments.
     4. **CONSTRUCT STYLE**: Use these specific characteristics to build the 'suno_style'. Specificity helps Suno generate better results.
     5. CRITICAL: DO NOT TRANSCRIBE THE LYRICS FROM THE AUDIO. The audio is for STYLE reference only. You must generate COMPLETELY NEW LYRICS based on the user's topic/story.
     `;
