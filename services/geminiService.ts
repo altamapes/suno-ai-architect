@@ -7,14 +7,23 @@ Anda adalah "Suno AI Master Architect", asisten ahli dalam merancang blueprint m
 
 ## CAPABILITIES
 Anda dapat menerima input teks DAN/ATAU input audio (file mp3/wav).
-- Jika user memberikan audio: Anda harus MENDENGARKAN dan MENGANALISIS karakteristik sonik (Genre, Mood, Tempo, Instrumen, Gaya Vokal) dari audio tersebut. Jadikan analisis audio sebagai basis utama "suno_style".
-- **PENTING: Audio hanya untuk referensi STYLE/VIBE. JANGAN PERNAH menyalin atau mentranskrip lirik dari file audio tersebut. Lirik yang Anda buat harus 100% ORIGINAL dan BARU.**
-- Jika user memberikan input teks (Genre, Mood, dll) bersamaan dengan audio: Gunakan input teks untuk menyempurnakan atau mengarahkan tema lirik, tetapi biarkan "Vibe/Style" musik mengikuti audio referensi kecuali diminta sebaliknya.
+
+### AUDIO ANALYSIS PROTOCOL (CRITICAL)
+Jika user memberikan file audio, Anda harus melakukan **DEEP SONIC ANALYSIS**:
+1. **Sub-Genre Specificity**: JANGAN gunakan genre payung yang umum (seperti "Pop" atau "Rock") jika ada klasifikasi yang lebih akurat. 
+   - *Contoh Salah*: "Indonesian Pop Rock"
+   - *Contoh Benar*: "Malaysian Slow Rock, 90s Melayu Rock, Power Ballad"
+2. **Era & Production**: Deteksi dekade atau gaya produksi (misal: "90s Analog", "Early 2000s Band", "Modern Lo-fi").
+3. **Instrumen Khas**: Identifikasi instrumen yang membangun karakter lagu (misal: "Melodic Lead Guitar", "Synthesizer Pad", "Gendang", "Orchestra Hit").
+4. **Vokal**: Deskripsikan tekstur vokal (misal: "High-pitched Male Tenor", "Raspy Emotion", "Soft Whisper").
+
+### PENTING
+Audio hanya untuk referensi **STYLE/VIBE**. JANGAN PERNAH menyalin atau mentranskrip lirik dari file audio tersebut. Lirik yang Anda buat harus 100% ORIGINAL dan BARU sesuai topik user.
 
 ## WORKFLOW LOGIC
-1. Analisis Input (Audio, Teks, & Advanced Toggles).
+1. Analisis Input (Audio secara mendalam, Teks, & Advanced Toggles).
 2. Generate Title: Ciptakan judul lagu yang catchy, artistik, dan sangat relevan dengan mood/tema/lirik.
-3. Generate Style: Gabungkan genre, mood, dan production quality ke dalam maksimal 120 karakter (limit Suno).
+3. Generate Style: Gabungkan sub-genre spesifik, mood, dan production quality ke dalam maksimal 120 karakter (limit Suno).
 4. Generate Lyrics: Buat lirik dengan struktur lagu yang jelas menggunakan tag [Bracket] yang tepat.
 
 ## STYLE OPTIMIZATION RULES
@@ -70,16 +79,17 @@ export const generateBlueprint = async (input: UserInput): Promise<SunoBlueprint
   if (input.audioData) {
     promptText += `
     IMPORTANT: An audio reference file has been provided. 
-    1. ANALYZE the audio to determine the Genre, Mood, Tempo, and Vocal Style. 
-    2. USE these characteristics to construct the 'suno_style'.
-    3. Use the following user preferences to guide the lyrical theme and specific nuances, but prioritize the audio's sonic vibe for the style prompt.
-    4. CRITICAL: DO NOT TRANSCRIBE THE LYRICS FROM THE AUDIO. The audio is for STYLE reference only. You must generate COMPLETELY NEW LYRICS based on the user's topic/story.
+    1. **DEEP ANALYSIS REQUIRED**: Listen closely to the audio. Do not default to generic genres like "Indonesian Pop" or "Ballad" unless it is truly generic.
+    2. **DETECT SUB-GENRES**: Look for specific regional or niche styles (e.g., "Slow Rock Melayu", "Indonesian City Pop", "Dangdut Koplo", "90s Malaysian Rock", etc.).
+    3. **ANALYZE TEXTURE**: Identify the Decade (e.g., 90s, 80s), Vocal Type (e.g., High Pitch Male, Power Vocals), and Key Instruments (e.g., Distorted Guitar Solo, Synth Strings).
+    4. **CONSTRUCT STYLE**: Use these specific characteristics to build the 'suno_style'. Specificity helps Suno generate better results.
+    5. CRITICAL: DO NOT TRANSCRIBE THE LYRICS FROM THE AUDIO. The audio is for STYLE reference only. You must generate COMPLETELY NEW LYRICS based on the user's topic/story.
     `;
   }
 
   promptText += `
     User Preferences:
-    - Genre/Style Input: ${input.genre || "Analyze from audio"}
+    - Genre/Style Input: ${input.genre || "Analyze from audio (Be specific! Avoid generic terms)"}
     - Mood/Vibe Input: ${input.mood || "Analyze from audio"}
     
     - Vocals Input: ${input.vocals.includes('Auto') ? "ANALYZE FROM AUDIO (Identify if Male/Female/Duet/etc)" : input.vocals}
@@ -126,7 +136,7 @@ export const generateBlueprint = async (input: UserInput): Promise<SunoBlueprint
             },
             analysis: {
               type: Type.STRING,
-              description: "Brief explanation of why this combination was chosen, noting the structure and advanced features applied.",
+              description: "Brief explanation of why this combination was chosen, noting the specific sub-genre detected from audio.",
             },
           },
           required: ["suno_title", "suno_style", "suno_lyrics", "analysis"],
