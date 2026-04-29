@@ -30,7 +30,7 @@ Jika user memberikan file audio, Anda harus melakukan **DEEP SONIC ANALYSIS**:
 
 2. **Era & Production**: Deteksi dekade atau gaya produksi (misal: "90s Analog", "Early 2000s Band", "Modern Lo-fi").
 3. **Instrumen Khas**: Identifikasi instrumen yang membangun karakter lagu (misal: "Melodic Lead Guitar", "Synthesizer Pad", "Gendang", "Orchestra Hit", "Suling").
-4. **Vokal**: Deskripsikan tekstur vokal (misal: "High-pitched Male Tenor", "Raspy Emotion", "Soft Whisper", "Cengkok Melayu").
+4. **Vokal (CRITICAL GENDER DETECTION)**: WAJIB deteksi gender penyanyi dari audio dengan akurat (Female Vocal, Male Vocal, atau Duet). Dengarkan dengan saksama, JANGAN asumsikan male secara default. Deskripsikan juga tekstur vokal (misal: "High-pitched Female Vocal", "Raspy Male Emotion", "Soft Whisper Female").
 
 ### PENTING
 Audio hanya untuk referensi **STYLE/VIBE**. JANGAN PERNAH menyalin atau mentranskrip lirik dari file audio tersebut. Lirik yang Anda buat harus 100% ORIGINAL dan BARU sesuai topik user.
@@ -46,6 +46,7 @@ Audio hanya untuk referensi **STYLE/VIBE**. JANGAN PERNAH menyalin atau mentrans
 - **PRIORITIZE**: Genre Tag > Mood > Instruments > Vocals.
 - **FOR POP MELAYU**: Use tags like "Pop Minang, Pop Melayu, Mendayu, Sentimental, Slow Beat". Avoid "Rock".
 - **FOR DUETS**: You MUST include "Duet" and "Male and Female Vocals" in the Style Prompt.
+- **CRITICAL VOCAL TAGGING**: If the detected audio vocalist is female, you MUST explicitly include "Female Vocal" in the Style Prompt. If male, explicitly include "Male Vocal". JANGAN sampai tertukar.
 
 ## LYRICS STRUCTURE RULES
 - Follow the 'Structure Blueprint' provided by the user EXACTLY.
@@ -110,7 +111,7 @@ export const generateBlueprint = async (input: UserInput): Promise<SunoBlueprint
        - If the song sounds like **Arief**, **Thomas Arya**, or **Ipank** (Sad, Melodic, Synth-heavy, Cengkok Vocals): Classify as **"Pop Minang"** or **"Pop Melayu"**. 
        - **STRICTLY AVOID "ROCK"**: Do not use "Rock" or "Power Ballad" for these sentimental synth-pop songs.
        - Only use "Slow Rock" if there is heavy, distorted electric guitar driving the song (Search, Iklim style).
-    3. **ANALYZE TEXTURE**: Identify the Decade (e.g., 90s, 80s), Vocal Type (e.g., High Pitch Male, Power Vocals), and Key Instruments.
+    3. **ANALYZE TEXTURE & VOCALS**: You MUST correctly identify if the main vocalist is FEMALE or MALE. Do not default to Male. Identify the Decade, Vocal Texture (e.g., Soft Female Vocal, High Pitch Male, etc.), and Key Instruments.
     4. **CONSTRUCT STYLE**: Use these specific characteristics to build the 'suno_style'. Specificity helps Suno generate better results.
     5. CRITICAL: DO NOT TRANSCRIBE THE LYRICS FROM THE AUDIO. The audio is for STYLE reference only. You must generate COMPLETELY NEW LYRICS based on the user's topic/story.
     `;
@@ -121,7 +122,7 @@ export const generateBlueprint = async (input: UserInput): Promise<SunoBlueprint
     - Genre/Style Input: ${input.genre || "Analyze from audio (Be specific! Avoid generic terms)"}
     - Mood/Vibe Input: ${input.mood || "Analyze from audio"}
     
-    - Vocals Input: ${input.vocals.includes('Auto') ? "ANALYZE FROM AUDIO (Identify if Male/Female/Duet/etc)" : input.vocals}
+    - Vocals Input: ${input.vocals.includes('Auto') ? "ANALYZE FROM AUDIO (CRITICAL: Accurately detect if Female, Male, or Duet. Listen to the pitch and timbre)" : input.vocals}
     - Tempo Input: ${input.tempo.includes('Auto') ? "ANALYZE FROM AUDIO (Identify BPM range)" : input.tempo}
     - Language: ${input.language.includes('Auto') ? "ANALYZE FROM AUDIO (Identify language or default to English)" : input.language}
     
