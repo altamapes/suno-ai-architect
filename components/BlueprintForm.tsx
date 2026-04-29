@@ -178,6 +178,8 @@ const BlueprintForm: React.FC<BlueprintFormProps> = ({ onSubmit, loadingState })
           audioData: base64String,
           audioMimeType: file.type,
           // Auto-detect triggers
+          genre: '✨ Auto-detect (Match Audio)',
+          mood: '✨ Auto-detect (Match Audio)',
           vocals: '✨ Auto-detect (Match Audio)',
           tempo: '✨ Auto-detect (Match Audio)',
           language: '✨ Auto-detect (Match Audio)'
@@ -194,6 +196,8 @@ const BlueprintForm: React.FC<BlueprintFormProps> = ({ onSubmit, loadingState })
       audioData: undefined, 
       audioMimeType: undefined,
       // Reset to defaults if file is removed
+      genre: prev.genre.includes('Auto-detect') ? '' : prev.genre,
+      mood: prev.mood.includes('Auto-detect') ? '' : prev.mood,
       vocals: 'Male Vocal',
       tempo: 'Mid-Tempo (90-110 BPM)',
       language: 'English'
@@ -205,6 +209,12 @@ const BlueprintForm: React.FC<BlueprintFormProps> = ({ onSubmit, loadingState })
   const handleLanguageFocus = () => {
     if (formData.language.includes('Auto-detect')) {
       setFormData(prev => ({ ...prev, language: '' }));
+    }
+  };
+
+  const clearAutoDetectOnFocus = (name: keyof UserInput) => {
+    if (typeof formData[name] === 'string' && (formData[name] as string).includes('Auto-detect')) {
+      setFormData(prev => ({ ...prev, [name]: '' }));
     }
   };
 
@@ -362,7 +372,8 @@ const BlueprintForm: React.FC<BlueprintFormProps> = ({ onSubmit, loadingState })
               list="genre-suggestions"
               value={formData.genre}
               onChange={handleChange}
-              placeholder={fileName ? "Auto-detected from audio" : "e.g. Synthwave"}
+              onFocus={() => clearAutoDetectOnFocus('genre')}
+              placeholder="e.g. Synthwave"
               className="w-full bg-black/20 border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-suno-primary focus:ring-1 focus:ring-suno-primary transition-all placeholder:text-white/20"
             />
             <datalist id="genre-suggestions">
@@ -377,7 +388,8 @@ const BlueprintForm: React.FC<BlueprintFormProps> = ({ onSubmit, loadingState })
               name="mood"
               value={formData.mood}
               onChange={handleChange}
-              placeholder={fileName ? "Auto-detected from audio" : "e.g. Melancholic, High Energy"}
+              onFocus={() => clearAutoDetectOnFocus('mood')}
+              placeholder="e.g. Melancholic, High Energy"
               className="w-full bg-black/20 border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-suno-secondary focus:ring-1 focus:ring-suno-secondary transition-all placeholder:text-white/20"
             />
           </div>
@@ -416,8 +428,8 @@ const BlueprintForm: React.FC<BlueprintFormProps> = ({ onSubmit, loadingState })
               name="language"
               value={formData.language}
               onChange={handleChange}
-              onFocus={handleLanguageFocus}
-              placeholder={fileName ? "Auto-detected" : "e.g. English"}
+              onFocus={() => clearAutoDetectOnFocus('language')}
+              placeholder="e.g. English"
               className="w-full bg-black/20 border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-suno-primary"
             />
           </div>
