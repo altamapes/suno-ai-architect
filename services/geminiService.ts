@@ -109,8 +109,8 @@ export const generateBlueprint = async (input: UserInput): Promise<SunoBlueprint
     2. **CRITICAL GENRE DISTINCTION (INDONESIA/MELAYU)**:
        - **TARGET NUANCE**: "Mendayu-dayu" (Sentimental, Lilting, Sad).
        - If the song sounds like **Arief**, **Thomas Arya**, or **Ipank** (Sad, Melodic, Synth-heavy, Cengkok Vocals): Classify as **"Pop Minang"** or **"Pop Melayu"**. 
-       - **STRICTLY AVOID "ROCK"**: Do not use "Rock" or "Power Ballad" for these sentimental synth-pop songs.
-       - Only use "Slow Rock" if there is heavy, distorted electric guitar driving the song (Search, Iklim style).
+       - **STRICTLY AVOID "ROCK"**: Do not use "Rock" or "Power Ballad" for these sentimental synth-pop songs (UNLESS the user explicitly selected Rock in the Genre Input below).
+       - Only use "Slow Rock" if there is heavy, distorted electric guitar driving the song, OR if the user explicitly requested it.
     3. **ANALYZE TEXTURE & VOCALS**: You MUST correctly identify if the main vocalist is FEMALE or MALE. Do not default to Male. Identify the Decade, Vocal Texture (e.g., Soft Female Vocal, High Pitch Male, etc.), and Key Instruments.
     4. **CONSTRUCT STYLE**: Use these specific characteristics to build the 'suno_style'. Specificity helps Suno generate better results.
     5. CRITICAL: DO NOT TRANSCRIBE THE LYRICS FROM THE AUDIO. The audio is for STYLE reference only. You must generate COMPLETELY NEW LYRICS based on the user's topic/story.
@@ -119,7 +119,7 @@ export const generateBlueprint = async (input: UserInput): Promise<SunoBlueprint
 
   promptText += `
     User Preferences:
-    - Genre/Style Input: ${input.genre || "Analyze from audio (Be specific! Avoid generic terms)"}
+    - Genre/Style Input: ${input.genre && !input.genre.includes('Auto-detect') ? `${input.genre} (CRITICAL: User explicitly selected this. YOU MUST USE THIS AS THE MAIN GENRE AND DO NOT OVERRIDE IT WITH AUDIO ANALYSIS, even if it contradicts the 'Avoid Rock' rule)` : "Analyze from audio (Be specific! Avoid generic terms)"}
     - Mood/Vibe Input: ${input.mood || "Analyze from audio"}
     
     - Vocals Input: ${input.vocals.includes('Auto') ? "ANALYZE FROM AUDIO (CRITICAL: Accurately detect if Female, Male, or Duet. Listen to the pitch and timbre)" : input.vocals}
