@@ -39,6 +39,15 @@ export const PRODUCTION_TEXTURES = [
   "Lo-fi Organic (Raw & Dusty)"
 ];
 
+export const FUSION_STYLES = [
+  "Breakbeat TikTok", "Alternative Rock", "Pop Rock", "Pop Melayu",
+  "Slow Rock", "Indo Pop", "Rock Kapak", "Dangdut Koplo",
+  "Cyberpunk Phonk", "Lofi Jazz", "Orchestral Epic",
+  "Campursari Modern", "Retrowave Synth", "Reggaeton", "Math Rock",
+  "J-Pop", "K-Pop Style", "Industrial Techno", "Indie Folk",
+  "Bossa Nova", "Trap Metal", "Classical Fusion", "Ska Punk"
+];
+
 export const STRUCTURE_OPTIONS = [
   "Intro - Verse - Chorus - Verse - Chorus - Bridge - Chorus - Outro (The Standard)",
   "Intro - Verse - Pre-Chorus - Chorus - Verse - Pre-Chorus - Chorus - Bridge - Chorus - Outro (Full Pop)",

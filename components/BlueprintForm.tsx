@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { UserInput, LoadingState, Preset } from '../types';
-import { VOCAL_TYPES, TEMPO_OPTIONS, GENRE_EXAMPLES, PRODUCTION_TEXTURES, STRUCTURE_OPTIONS } from '../constants';
+import { VOCAL_TYPES, TEMPO_OPTIONS, GENRE_EXAMPLES, PRODUCTION_TEXTURES, STRUCTURE_OPTIONS, FUSION_STYLES } from '../constants';
 import { Sparkles, Loader2, UploadCloud, Music, X, Star, User, TrendingUp, AudioLines, Layers, Save, Bookmark, Trash2, Check, Guitar, History, Mic2 } from 'lucide-react';
 
 interface BlueprintFormProps {
@@ -137,6 +137,23 @@ const BlueprintForm: React.FC<BlueprintFormProps> = ({ onSubmit, loadingState })
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
+  };
+
+  const handleFusionStyleClick = (style: string) => {
+    setFormData(prev => {
+      let currentGenre = prev.genre;
+      if (currentGenre.includes('Auto-detect')) {
+        currentGenre = '';
+      }
+      
+      const genres = currentGenre.split(',').map(s => s.trim()).filter(Boolean);
+      
+      if (genres.includes(style)) {
+        return { ...prev, genre: genres.filter(g => g !== style).join(', ') };
+      } else {
+        return { ...prev, genre: [...genres, style].join(', ') };
+      }
+    });
   };
 
   const handleToggle = (name: keyof UserInput) => {
@@ -361,6 +378,31 @@ const BlueprintForm: React.FC<BlueprintFormProps> = ({ onSubmit, loadingState })
         </div>
 
         <div className="border-t border-white/5 my-4"></div>
+
+        {/* Available Fusion Styles */}
+        <div className="space-y-3">
+          <label className="text-xs font-mono uppercase tracking-wider text-white/50">Available Fusion Styles</label>
+          <div className="flex flex-wrap gap-2">
+            {FUSION_STYLES.map(style => {
+              // Create a derived state just for styling the pill correctly
+              const isSelected = formData.genre.split(',').map(s => s.trim()).includes(style);
+              return (
+                <button
+                  key={style}
+                  type="button"
+                  onClick={() => handleFusionStyleClick(style)}
+                  className={`px-3 py-1.5 rounded-lg text-xs md:text-sm border transition-all ${
+                    isSelected
+                      ? 'bg-suno-primary/20 border-suno-primary text-white' 
+                      : 'bg-black/20 border-white/10 text-white/70 hover:bg-white/5 hover:border-white/20'
+                  }`}
+                >
+                  {style}
+                </button>
+              );
+            })}
+          </div>
+        </div>
 
         {/* Genre & Mood Row */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
